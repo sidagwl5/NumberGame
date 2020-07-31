@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from "react";
+import UI from "./components/UI";
+import Table from "./components/Table";
+import Animation from "./components/Animation";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  state = {
+    times: [1],
+  };
+
+  componentDidMount() {
+    Animation();
+  }
+
+  changeComponent = () => {
+    this.setState({
+      times: [
+        ...this.state.times,
+        this.state.times[this.state.times.length - 1] + 1,
+      ],
+    });
+  };
+
+  handleUIComponents = () => {
+    return this.state.times.map((v) => {
+      return (
+        <div key={v}>
+          <UI times={v} changeComponent={this.changeComponent} />
+        </div>
+      );
+    });
+  };
+
+  render() {
+    return (
+      <Fragment>
+        <div className="UI-main">
+          <div className="UI-submain">
+            <h1>Number game</h1>
+            {this.handleUIComponents()}
+          </div>
+
+          <Table />
+        </div>
+      </Fragment>
+    );
+  }
 }
-
-export default App;
